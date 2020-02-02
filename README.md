@@ -1,2 +1,2 @@
-# csslessons
-css udemy lessons code
+# udemy lesson for css.
+# this file contains code of the lesson
