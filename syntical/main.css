@@ -1,6 +1,16 @@
-@import "typography.css";
+.char-highlight {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #541751;
+}
+
 html {
   font-size: 94.75%;
+}
+@media (min-width: 40rem) {
+  html {
+    font-size: 125%;
+  }
 }
 
 body {
@@ -20,34 +30,34 @@ body {
   box-sizing: border-box;
 }
 
-.sass-introduction {
-  border: 0.05rem solid #521751;
-  background: #fae5ff;
+.sass-section, .sass-details, .sass-introduction {
+  border: 0.05rem solid #541751;
+  background: #f7e3f6;
   padding: 2rem;
   text-align: center;
-  box-shadow: 0.2rem 0.2rem 0.1rem #ccc;
   width: 90%;
   box-sizing: border-box;
 }
+@media (min-width: 40rem) {
+  .sass-section, .sass-details, .sass-introduction {
+    width: 30rem;
+  }
+}
 
+.sass-introduction {
+  box-shadow: 0.2rem 0.2rem 0.1rem #ccc;
+}
 .sass-introduction p {
   margin: 0;
 }
 
 .sass-details {
-  border: 0.05rem solid #521751;
-  background: #fae5ff;
-  padding: 1rem;
-  text-align: center;
   margin: 2rem 0;
-  width: 90%;
-  box-sizing: border-box;
 }
 
 .section-header {
-  border-bottom: 0.05rem solid #521751;
+  border-bottom: 0.05rem solid #541751;
 }
-
 .section-header h1 {
   margin: 0 0 1rem 0;
 }
@@ -62,38 +72,21 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 .documentation-links li {
   margin: 0.2rem 0;
   background: white;
 }
-
 .documentation-links .documentation-link {
   text-decoration: none;
-  color: #521751;
+  color: #541751;
   display: block;
   padding: 0.2rem;
-  border: 0.05rem solid #521751;
+  border: 0.05rem solid #541751;
 }
-
-.documentation-links .documentation-link:hover,
-.documentation-links .documentation-link:active {
+.documentation-links .documentation-link:hover, .documentation-links .documentation-link:active {
   color: white;
   background: #fa923f;
   border-color: #fa923f;
 }
 
-@media (min-width: 40rem) {
-  html {
-    font-size: 125%;
-  }
-
-  .container {
-    padding: 3rem 0;
-  }
-
-  .sass-introduction,
-  .sass-details {
-    width: 30rem;
-  }
-}
+/*# sourceMappingURL=main.css.map */

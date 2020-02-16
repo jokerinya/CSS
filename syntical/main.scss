@@ -1,6 +1,41 @@
-@import 'typography.css';
+// yorumları böyle "//" yapınca css e almıyor
+
+// $main-color: #521751;
+// aşağısı map oluyor
+// $colors: (
+//  main: #541751,
+//  secondary: #fa923f
+// );
+// $border-default: 0.05rem solid map-get($colors, main);
+// $size-default: 1rem;
+// $size-tiny: 0.2rem;  burayı _variables.scss e taşıdık
+@import '_variables.scss';
+
+@import 'typography.scss';
+
+// mixin ile reusable function yazılıyor. @include ile artık her yerde bunu kullanabiliriz
+@mixin display-flex() {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+// her ne kadar çok kullanışlı olmasa da mediaquery i de mixin yapabiliriz
+// html içindeki yapalım, diğerini yapmayacağım
+// content selector içindeki içeriği al demek
+@mixin media-min-width($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
 html {
   font-size: 94.75%;
+  // media query i bu şekilde elementin içinde de kullanabiliriz
+  @include media-min-width(40rem) {
+    font-size: 125%;
+  }
 }
 
 body {
@@ -9,91 +44,84 @@ body {
 }
 
 .container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  @include display-flex();
+  //   flex-direction: column;
+  // flex-wrap: nowrap;
+  // ortada dash olanı bu şekilde yazabiliriz
+  flex: {
+    direction: column;
+    wrap: nowrap;
+  }
   align-items: center;
-  padding: 3rem 0;
+  // bu şekilde hesaplamalar da yapabiliriz
+  padding: $size-default * 3 0;
   box-sizing: border-box;
 }
 
-.sass-introduction {
-  border: 0.05rem solid #521751;
-  background: #fae5ff;
-  padding: 2rem;
+// ayrıca bu clası oluşturduk bunu extend ile import edeceğiz
+.sass-section {
+  border: $border-default;
+  background: lighten(map-get($colors, main), 72%);
+  // bu şu demek main-colora göre 72 daha açık bi renk getir demek
+  // bu sayede hep main-color daha açık tonu oluyor. başarılı
+  padding: $size-default * 2;
   text-align: center;
-  box-shadow: 0.2rem 0.2rem 0.1rem #ccc;
   width: 90%;
   box-sizing: border-box;
+  @media (min-width: 40rem) {
+    width: 30rem;
+  }
 }
 
-.sass-introduction p {
-  margin: 0;
+// extend ile ayrıca bir class oluşturup onu import edebiliriz. inheritance denir buna
+.sass-introduction {
+  @extend .sass-section;
+  box-shadow: $size-tiny $size-tiny $size-tiny / 2 #ccc;
+  p {
+    margin: 0;
+  }
 }
 
 .sass-details {
-  border: 0.05rem solid #521751;
-  background: #fae5ff;
-  padding: 1rem;
-  text-align: center;
-  margin: 2rem 0;
-  width: 90%;
-  box-sizing: border-box;
+  @extend .sass-section;
+  margin: $size-default * 2 0;
 }
 
 .section-header {
-  border-bottom: 0.05rem solid #521751;
-}
-
-.section-header h1 {
-  margin: 0 0 1rem 0;
+  border-bottom: $size-tiny / 4 solid map-get($colors, main);
+  h1 {
+    margin: 0 0 $size-default 0;
+  }
 }
 
 .documentation-links {
   list-style: none;
-  margin: 1rem 0 0 0;
+  margin: $size-default 0 0 0;
   padding: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
-}
-
-.documentation-links li {
-  margin: 0.2rem 0;
-  background: white;
-}
-
-.documentation-links .documentation-link {
-  text-decoration: none;
-  color: #521751;
-  display: block;
-  padding: 0.2rem;
-  border: 0.05rem solid #521751;
-}
-
-.documentation-links .documentation-link:hover,
-.documentation-links .documentation-link:active {
-  color: white;
-  background: #fa923f;
-  border-color: #fa923f;
-}
-
-@media (min-width: 40rem) {
-  html {
-    font-size: 125%;
+  @include display-flex();
+  flex: {
+    direction: column;
   }
-
-  .container {
-    padding: 3rem 0;
+  li {
+    margin: $size-tiny 0;
+    background: white;
   }
-
-  .sass-introduction,
-  .sass-details {
-    width: 30rem;
+  // hover ve active i de nested olarak yazabiliriz.
+  // bunun için & kullanıyoruz
+  .documentation-link {
+    text-decoration: none;
+    color: map-get($colors, main);
+    display: block;
+    padding: $size-tiny;
+    border: $border-default;
+    &:hover,
+    &:active {
+      color: white;
+      background: map-get($colors, secondary);
+      border-color: map-get($colors, secondary);
+    }
   }
 }
+
+// compile için: terminalde sass main.scss main.css
+// sürekli complie için: terminalde sass --watch main.scss:main.css
