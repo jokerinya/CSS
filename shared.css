@@ -1,6 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,400,900&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Anton&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,400,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap");
+/* en üste root konulmalı */
+:root {
+  --dark-green: #0e4f1f;
+  --highlight-color: #ff1b68;
+}
 
 * {
   box-sizing: border-box;
@@ -15,22 +20,16 @@ body::-webkit-scrollbar {
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin: 0;
-  padding-top: 3.5rem;
-}
-/* eğer grid destekliyorsa bunu uygula diyoruz */
-@supports (display: grid) {
-  body {
-    display: grid;
-    grid-template-rows: 3.5rem auto fit-content(8rem);
-    grid-template-areas:
-      'header'
-      'main'
-      'footer';
-    padding-top: 0;
-    height: 100%;
-  }
+  display: grid;
+  grid-template-rows: 3.5rem auto fit-content(8rem);
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  /* padding-top: 3.5rem; */
+  height: 100%;
 }
 
 main {
@@ -41,14 +40,16 @@ main {
 }
 
 .backdrop {
-  position: fixed;
   display: none;
+  position: fixed;
+  opacity: 0;
   top: 0;
   left: 0;
   z-index: 100;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.2s linear;
 }
 
 .main-header {
@@ -59,6 +60,12 @@ main {
   background: #2ddf5c;
   padding: 0.5rem 1rem;
   z-index: 60;
+  /* eski sürümlerde çalışması için tüm tanımlamalar eklenmeli en sona normali
+  eklenmeli */
+  /* what css to prefix diye bir site var buradan hangi prefix kullanılacak ona bakabiliriz */
+  display: -webkit-box; /* safari */
+  display: -ms-flexbox; /* ie */
+  display: -webkit-flex;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -117,7 +124,7 @@ main {
 .main-nav__item a,
 .mobile-nav__item a {
   text-decoration: none;
-  color: #0e4f1f;
+  color: var(--dark-green);
   font-weight: bold;
   padding: 0.2rem 0;
 }
@@ -128,10 +135,15 @@ main {
   border-bottom: 5px solid white;
 }
 
+.main-nav__item--cta {
+  /* isim, süre, geçikme, kaç defa, başlangıç konumuna geri gelsin mi? */
+  animation: wiggle 400ms 3s 8 ease-out none;
+}
+
 .main-nav__item--cta a,
 .mobile-nav__item--cta a {
   color: white;
-  background: #ff1b68;
+  background: var(--highlight-color);
   padding: 0.5rem 1rem;
   border-radius: 8px;
 }
@@ -140,7 +152,7 @@ main {
 .main-nav__item--cta a:active,
 .mobile-nav__item--cta a:hover,
 .mobile-nav__item--cta a:active {
-  color: #ff1b68;
+  color: var(--highlight-color);
   background: white;
   border: none;
 }
@@ -186,7 +198,7 @@ main {
 }
 
 .mobile-nav {
-  display: none;
+  transform: translateX(-100%);
   position: fixed;
   z-index: 101;
   top: 0;
@@ -194,6 +206,7 @@ main {
   background: white;
   width: 80%;
   height: 100vh;
+  transition: transform 300ms ease-out;
 }
 
 .mobile-nav__items {
@@ -217,10 +230,12 @@ main {
 }
 
 .button {
-  background: #0e4f1f;
+  /* background: #0e4f1f; */
+  background: var(--dark-green, #0e4f1f);
+  /* --dark-green i bulamazsan yaınıdaki rengi getir demek */
   color: white;
   font: inherit;
-  border: 1.5px solid #0e4f1f;
+  border: 1.5px solid var(--dark-green);
   padding: 0.5rem;
   border-radius: 8px;
   font-weight: bold;
@@ -230,7 +245,7 @@ main {
 .button:hover,
 .button:active {
   background: white;
-  color: #0e4f1f;
+  color: var(--dark-green);
 }
 
 .button:focus {
@@ -259,5 +274,20 @@ main {
   .main-footer__links {
     flex-direction: row;
     justify-content: center;
+  }
+}
+
+@keyframes wiggle {
+  /* from {} to {} da kullanılabilir */
+  0% {
+    /* başlangıç durumu */
+    transform: rotateZ(0);
+  }
+  50% {
+    transform: rotateZ(-10deg);
+  }
+  100% {
+    /* son durum */
+    transform: rotateZ(10deg);
   }
 }
